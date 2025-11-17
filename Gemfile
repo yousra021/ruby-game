@@ -2,8 +2,9 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.6"
-# Required for Ruby 3.4+ (bigdecimal was removed from standard library)
+# Required for Ruby 3.4+ (these gems were removed from standard library)
 gem "bigdecimal"
+gem "mutex_m"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
