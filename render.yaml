@@ -4,7 +4,7 @@ services:
     name: medieval-rpg
     env: ruby
     buildCommand: "./ruby_game/bin/render-build.sh"
-    startCommand: "./ruby_game/bin/render-start.sh"
+    startCommand: "./bin/puma"
     envVars:
       - key: RAILS_ENV
         value: production

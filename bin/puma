@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Wrapper pour puma qui change vers ruby_game avant d'exécuter
+
+set -e
+
+# Obtenir le répertoire racine
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+APP_DIR="$ROOT_DIR/ruby_game"
+
+# Changer vers ruby_game
+cd "$APP_DIR" || exit 1
+
+# Exécuter puma avec le Gemfile de la racine
+BUNDLE_GEMFILE="$ROOT_DIR/Gemfile" exec bundle exec puma "$@"
+
