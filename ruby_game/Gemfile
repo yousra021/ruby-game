@@ -30,7 +30,6 @@ gem 'inline_svg'
 gem 'rails-i18n'
 
 group :test do
-  gem 'factory_bot_rails'
   gem 'faker'
 end
 
