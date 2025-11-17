@@ -3,9 +3,8 @@ services:
   - type: web
     name: medieval-rpg
     env: ruby
-    rootDir: ruby_game
-    buildCommand: "./bin/render-build.sh"
-    startCommand: "./bin/render-start.sh"
+    buildCommand: "./ruby_game/bin/render-build.sh"
+    startCommand: "./ruby_game/bin/render-start.sh"
     envVars:
       - key: RAILS_ENV
         value: production

@@ -3,12 +3,14 @@
 
 set -o errexit
 
-# Se déplacer dans le répertoire de l'application Rails
-cd "$(dirname "$0")/.." || exit
+# Obtenir le répertoire racine (où se trouve le Gemfile)
+ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+cd "$ROOT_DIR" || exit
 
 echo "Préparation de la base de données..."
-bundle exec rails db:prepare
+cd "$ROOT_DIR/ruby_game" || exit
+BUNDLE_GEMFILE="$ROOT_DIR/Gemfile" bundle exec rails db:prepare
 
 echo "Démarrage du serveur Rails..."
-bundle exec rails server -b 0.0.0.0 -p ${PORT:-10000}
+BUNDLE_GEMFILE="$ROOT_DIR/Gemfile" bundle exec rails server -b 0.0.0.0 -p ${PORT:-10000}
 
