@@ -3,6 +3,9 @@
 
 set -o errexit
 
+# Se déplacer dans le répertoire de l'application Rails
+cd "$(dirname "$0")/.." || exit
+
 echo "Préparation de la base de données..."
 bundle exec rails db:prepare
 
