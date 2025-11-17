@@ -23,6 +23,10 @@ Bundler.require(*Rails.groups)
 
 module MedievalRpg
     class Application < Rails::Application
+      # Forcer la racine de l'application vers ruby_game
+      # car Rails la détermine incorrectement à cause du Gemfile à la racine
+      config.root = Pathname.new(File.dirname(__dir__))
+      
       config.load_defaults 7.0
       config.i18n.default_locale = :fr
 
