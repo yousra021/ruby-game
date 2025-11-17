@@ -7,7 +7,7 @@ Dir.chdir(app_dir)
 # Ajouter ruby_game au $LOAD_PATH
 $LOAD_PATH.unshift(app_dir) unless $LOAD_PATH.include?(app_dir)
 
-require_relative "config/environment"
+require File.join(app_dir, 'config', 'environment')
 
 run Rails.application
 Rails.application.load_server

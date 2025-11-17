@@ -4,6 +4,6 @@
 # Changer vers ruby_game avant de charger Rails
 app_dir = File.expand_path(File.join(__dir__, 'ruby_game'))
 Dir.chdir(app_dir) do
-  require_relative "config/application"
+  require File.join(app_dir, 'config', 'application')
   Rails.application.load_tasks
 end
