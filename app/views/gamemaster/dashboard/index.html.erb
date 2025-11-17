@@ -1,0 +1,20 @@
+<div class="min-h-screen bg-cover bg-center" style="background-image: url('/background-images/game-interfacemj-bg.png');">
+  <div class="min-h-screen flex flex-col items-center justify-center space-y-6">
+    <h1 class="font-dead text-[64px] text-[#dccdaa]">INTERFACE MJ</h1>
+
+    <%= link_to 'Créer quête', new_gamemaster_quest_path,
+        class: "w-60 text-center bg-[#222] text-[#dccdaa] px-6 py-3 rounded shadow" %>
+
+    <%= link_to 'Gérer PNJ', gamemaster_npcs_path,
+        class: "w-60 text-center bg-[#222] text-[#dccdaa] px-6 py-3 rounded shadow" %>
+
+    <%= link_to 'Gérer objets', gamemaster_equipments_path,
+        class: "w-60 text-center bg-[#222] text-[#dccdaa] px-6 py-3 rounded shadow" %>
+
+    <%= link_to 'Suivi joueurs', gamemaster_character_quest_progresses_path,
+        class: "w-60 text-center bg-[#222] text-[#dccdaa] px-6 py-3 rounded shadow" %>
+
+    <%= link_to "Retour à l'accueil", dashboard_path,
+        class: "w-60 text-center mt-4 bg-[#444] text-[#dccdaa] px-6 py-3 rounded shadow" %>
+  </div>
+</div>

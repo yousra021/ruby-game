@@ -1,0 +1,17 @@
+<h2>Étape de la quête</h2>
+<p><%= @step.description %></p>
+
+<p>Choisissez entre un combat ou une énigme pour compléter cette étape.</p>
+
+<% if @step.has_combat? %>
+  <%= link_to "⚔️ Combattre le PNJ", start_combat_path(step_id: @step.id), class: "btn btn-danger" %>
+<% end %>
+
+<% if @step.has_riddle? %>
+  <%= link_to "🧠 Répondre à l'énigme", riddle_path(@step.riddle), class: "btn btn-primary" %>
+<% end %>
+
+
+<% if !@step.has_riddle? && !@step.has_combat? %>
+  <p>Aucune action disponible pour cette étape. Veuillez contacter le maître du jeu.</p>
+<% end %>

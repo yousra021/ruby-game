@@ -1,0 +1,88 @@
+<div class="min-h-screen bg-cover bg-center text-[#dccdaa] font-dead px-6 py-10"
+    style="background-image: url('/background-images/game-combat-bg.png');">
+
+  <h1 class="text-3xl text-center mb-6">COMBAT _ TOI VS <%= @npc.name.upcase %></h1>
+
+  <div class="flex justify-between items-center mb-6">
+    <!-- Joueur -->
+    <div class="text-center">
+      <% if @character.avatar.present? %>
+        <img src="<%= asset_path("avatars/#{@character.avatar}") %>" class="w-32 mx-auto mb-2 rounded-2xl">
+      <% else %>
+        <img src="/assets/player.png" class="w-32 mx-auto mb-2">
+      <% end %>
+      <p>❤️ <%= @combat.character_remaining_hp || @character.total_health %> PV</p>
+      <div class="w-32 bg-[#333] h-3 rounded overflow-hidden">
+        <div class="bg-red-500 h-full"
+             style="width: <%= ((@combat.character_remaining_hp.to_f / @character.total_health) * 100 rescue 100) %>%"></div>
+      </div>
+    </div>
+
+    <!-- PNJ -->
+    <div class="text-center">
+      <% if @npc.avatar.attached? %>
+        <img src="<%= url_for(@npc.avatar) %>" class="w-32 mx-auto mb-2 rounded-2xl">
+      <% else %>
+        <img src="<%= asset_path("npcs/zombie1.png") %>" class="w-32 mx-auto mb-2">
+      <% end %>
+      <p class="font-bold text-lg"><%= @npc.name %></p>
+      <p>💀 <%= @combat.npc_remaining_hp || @npc.health %> PV / 💪 <%= @npc.strength %></p>
+      <div class="w-32 h-3 bg-[#333] rounded overflow-hidden mx-auto mt-1">
+        <div class="bg-red-600 h-full"
+            style="width: <%= ((@combat.npc_remaining_hp.to_f / @npc.health) * 100 rescue 100) %>%"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Combat Log -->
+  <div class="bg-[#111] text-sm p-4 rounded shadow mt-6 space-y-1 flex flex-col justify-center max-w-xl mx-auto">
+    <h2 class="text-lg font-bold mb-2">📜 Journal du combat</h2>
+    <% @combat.log.to_s.lines.each do |line| %>
+      <p><%= line.chomp %></p>
+    <% end %>
+  </div>
+
+
+
+  <!-- Actions -->
+  <% if @combat.status == 'ongoing' && @combat.turn == 'player' %>
+    <div class="flex justify-center gap-6">
+      <%= button_to "Attaquer", attack_combat_path(@combat), method: :post, class: "bg-[#554433] px-6 py-3 rounded shadow" %>
+      <% if @combat.turn == 'player' %>
+        <%= button_to "💊 Utiliser un objet", use_combat_item_path(@combat), method: :post, class: "bg-green-600 text-white px-4 py-2 rounded" %>
+      <% end %>
+      <%= button_to "Fuir", flee_combat_path(@combat), method: :post, class: "bg-[#554433] px-6 py-3 rounded shadow" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const zombieAttacked = <%= session.delete(:zombie_attacked).present?.to_s %>;
+    const playerAttacked = <%= session.delete(:player_attacked).present?.to_s %>;
+    const turn = "<%= @combat.turn %>";
+
+    console.log("Zombie attacked?", zombieAttacked);
+    console.log("Player attacked?", playerAttacked);
+
+    if (zombieAttacked) {
+      const s = new Audio('/assets/zombie_attack.mp3');
+      s.volume = 0.7;
+      s.play().catch((e) => console.warn("Son zombie bloqué :", e));
+      if (navigator.vibrate) navigator.vibrate(200);
+    }
+
+    if (playerAttacked) {
+      const s = new Audio('/assets/player_attack.mp3');
+      s.volume = 0.7;
+      s.play().catch((e) => console.warn("Son joueur bloqué :", e));
+    }
+
+    if (turn === "npc") {
+      setTimeout(() => {
+        window.location.href = "<%= combat_path(@combat) %>?npc_attack=true";
+      }, 1500); // Délai avant contre-attaque
+    }
+  });
+</script>

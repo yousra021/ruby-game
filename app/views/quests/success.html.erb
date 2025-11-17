@@ -1,0 +1,27 @@
+<div class="min-h-screen bg-cover bg-center" style="background-image: url('/background-images/game-mission-reussie-bg.png');">
+  <div class="min-h-screen flex flex-col items-center justify-center space-y-6 text-[#dccdaa]">
+    <h1 class="text-[48px] font-bold font-dead">MISSION ACCOMPLIE !</h1>
+
+    <p class="text-lg">🎉 Félicitations, <%= @character.name %> ! Tu as terminé la quête : <strong><%= @quest.title %></strong></p>
+
+    <p class="text-xl mt-4">Voici ta récompense :</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-8">
+      <% @rewards.each do |reward| %>
+        <div class="bg-[#222] bg-opacity-70 p-4 rounded shadow-md flex flex-col items-center text-center">
+          <% if reward.image.attached? %>
+            <%= image_tag reward.image, class: "w-24 h-24 mb-2 object-contain" %>
+          <% end %>
+          <h3 class="text-lg font-semibold mb-1"><%= reward.name %></h3>
+          <p class="text-sm mb-3"><%= reward.bonus_description %></p>
+          <div class="flex flex-col space-y-2 w-full">
+            <%= button_to "Équiper", equip_item_path(reward.id), method: :post, class: "bg-[#dccdaa] text-[#222] py-2 px-4 rounded shadow text-sm" %>
+            <%= button_to "Ajouter à l’inventaire", character_inventory_items_path(@character, item_id: reward.id), method: :post, class: "bg-[#dccdaa] text-[#222] py-2 px-4 rounded shadow text-sm" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= link_to "🏠 Retour au camp", dashboard_index_path, class: "mt-8 bg-[#222] text-[#dccdaa] px-6 py-3 rounded shadow" %>
+  </div>
+</div>

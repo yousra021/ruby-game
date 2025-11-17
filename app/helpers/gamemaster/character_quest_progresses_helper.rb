@@ -1,0 +1,2 @@
+module Gamemaster::CharacterQuestProgressesHelper
+end

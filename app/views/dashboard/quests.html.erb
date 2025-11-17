@@ -1,0 +1,40 @@
+<div class="min-h-screen px-6 py-10 bg-[#1a1816] text-[#dccdaa] font-sans">
+  <h1 class="text-5xl font-extrabold tracking-wide text-center mb-12">QUÊTES</h1>
+
+  <div class="space-y-6 max-w-2xl mx-auto">
+    <% @available_quests.each do |quest| %>
+      <% progress = @progresses[quest.id] %>
+
+      <div class="bg-[#2b251f] px-6 py-5 rounded-lg shadow-md flex items-center justify-between">
+        <div>
+          <p class="text-lg font-semibold mb-1">
+            <span class="inline-block mr-2">📍</span>Mission : <%= quest.title %>
+          </p>
+        </div>
+
+        <div>
+          <% if progress&.quest_status == "in_progress" %>
+            <p class="text-yellow-400 font-semibold mb-2 text-sm">🕒 Quête en cours</p>
+            <%= link_to "Continuer", dashboard_steps_path(quest_id: quest.id), class: "px-4 py-2 bg-[#4b453b] text-white rounded hover:bg-[#5e584e]" %>
+
+          <% elsif progress&.quest_status == "completed" %>
+            <button class="opacity-50 cursor-not-allowed px-4 py-2 rounded bg-gray-600 text-gray-300" disabled>
+              ✅ Déjà terminée
+            </button>
+
+          <% elsif progress&.quest_status == "failed" %>
+            <p class="text-red-400 font-semibold mb-2 text-sm">❌ Quête échouée</p>
+            <button class="opacity-50 cursor-not-allowed px-4 py-2 rounded bg-gray-600 text-gray-300" disabled>
+              ❌ Échec
+            </button>
+
+          <% else %>
+            <%= form_with url: start_quest_path(quest), method: :post, class: "inline" do %>
+              <%= submit_tag "Commencer", class: "px-4 py-2 bg-[#4b453b] text-white rounded hover:bg-[#5e584e]" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

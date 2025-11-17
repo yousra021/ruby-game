@@ -1,0 +1,10 @@
+<h1>Quêtes existantes</h1>
+<%= link_to 'Nouvelle quête', new_gamemaster_quest_path %>
+<ul>
+  <% @quests.each do |quest| %>
+    <li>
+      <%= quest.title %> - <%= link_to 'Modifier', edit_gamemaster_quest_path(quest) %> |
+      <%= link_to 'Supprimer', gamemaster_quest_path(quest), method: :delete, data: { confirm: "Supprimer ?" } %>
+    </li>
+  <% end %>
+</ul>

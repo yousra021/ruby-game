@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  health: 1
+  strength: 1
+  avatar_url: MyString
+  quest_step: one
+
+two:
+  name: MyString
+  health: 1
+  strength: 1
+  avatar_url: MyString
+  quest_step: two

@@ -1,0 +1,77 @@
+<div class="min-h-screen bg-cover bg-center px-6 py-12" style="background-image: url('/background-images/game-list-pnj-bg.png');">
+  <h1 class="font-dead text-4xl text-center text-[#dccdaa] mb-10 tracking-widest">LISTE DES PNJ</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto text-[#dccdaa] justify-center items-start">
+
+    <!-- 🎯 Formulaire -->
+    <div class="bg-[#111]/90 p-6 rounded shadow-lg border border-[#333] w-full">
+      <h2 class="text-2xl font-bold mb-6">Ajouter PNJ</h2>
+            <% if @npc.errors.any? %>
+            <div class="mb-4 p-4 bg-red-900 text-[#dccdaa] rounded shadow">
+                <h3 class="font-bold text-lg mb-2">Erreurs lors de la création :</h3>
+                <ul class="list-disc pl-5">
+                <% @npc.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+                </ul>
+            </div>
+            <% end %>
+
+      <%= form_with model: @npc, url: gamemaster_npcs_path, local: true, html: { multipart: true } do |f| %>
+        <div class="mb-4">
+          <%= f.label :name, "Nom", class: "block mb-2 text-sm" %>
+          <%= f.text_field :name, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded shadow-inner" %>
+        </div>
+
+        <div class="flex gap-4 mb-4">
+          <div class="w-1/2">
+            <%= f.label :health, "Vie", class: "block mb-2 text-sm" %>
+            <%= f.number_field :health, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded shadow-inner", required: true %>
+          </div>
+          <div class="w-1/2">
+            <%= f.label :strength, "Force", class: "block mb-2 text-sm" %>
+            <%= f.number_field :strength, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded shadow-inner" %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :avatar, "Avatar", class: "block mb-2 text-sm" %>
+          <%= f.file_field :avatar, class: "w-full text-[#dccdaa]" %>
+        </div>
+
+        <%= f.submit "Ajouter PNJ", class: "bg-green-700 hover:bg-green-600 px-6 py-2 rounded text-[#dccdaa] mt-4 w-full shadow" %>
+      <% end %>
+    </div>
+
+    <!-- 📋 Liste -->
+    <div class="bg-[#111]/90 p-6 rounded shadow-lg border border-[#333] w-full">
+      <h2 class="text-2xl font-bold mb-6">Liste PNJ</h2>
+
+        <% @npcs.each do |npc| %>
+            <div class="flex justify-between items-center bg-[#222] px-4 py-3 rounded mb-3 shadow relative group">
+            <div class="flex items-center gap-4">
+                <% if npc.avatar.attached? %>
+                  <%= image_tag npc.avatar, class: "h-10 w-10 rounded-full object-cover" %>
+                <% else %>
+                <div class="h-10 w-10 rounded-full bg-[#333] flex items-center justify-center text-sm text-gray-400 shadow">?</div>
+                <% end %>
+
+                <span class="text-lg font-semibold">
+                <%= npc.name %> (<%= npc.health %> PV / <%= npc.strength %> F)
+                </span>
+            </div>
+
+            <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <%= link_to "✏️", edit_gamemaster_npc_path(npc),
+                    class: "bg-yellow-600 hover:bg-yellow-500 text-sm px-3 py-1 rounded text-white" %>
+                <%= button_to "🗑️", gamemaster_npc_path(npc),
+                    method: :delete,
+                    data: { confirm: "Supprimer ce PNJ ?" },
+                    class: "bg-red-700 hover:bg-red-600 text-sm px-3 py-1 rounded text-white" %>
+            </div>
+            </div>
+        <% end %>
+    </div>
+
+  </div>
+</div>

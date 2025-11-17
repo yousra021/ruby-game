@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-cover bg-center px-6 py-12" style="background-image: url('/background-images/game-list-pnj-bg.png');">
+  <div class="max-w-xl mx-auto bg-[#111]/90 p-6 rounded shadow-lg border border-[#333] text-[#dccdaa]">
+    <h1 class="font-dead text-3xl text-center mb-6 tracking-widest">Modifier l'équipement</h1>
+
+    <%= form_with model: @equipment, url: gamemaster_equipment_path(@equipment), method: :patch, local: true, html: { multipart: true } do |f| %>
+      <div class="mb-4">
+        <%= f.label :name, "Nom", class: "block mb-2 text-sm" %>
+        <%= f.text_field :name, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :equipment_type, "Type", class: "block mb-2 text-sm" %>
+        <%= f.select :equipment_type, Equipment::EQUIPMENT_TYPES.map { |t| [t.capitalize, t] }, {}, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 mb-4">
+        <div>
+          <%= f.label :bonus_force, "Bonus Force", class: "block mb-2 text-sm" %>
+          <%= f.number_field :bonus_force, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+        </div>
+        <div>
+          <%= f.label :bonus_pv, "Bonus PV", class: "block mb-2 text-sm" %>
+          <%= f.number_field :bonus_pv, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+        </div>
+        <div>
+          <%= f.label :bonus_xp, "Bonus XP", class: "block mb-2 text-sm" %>
+          <%= f.number_field :bonus_xp, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :bonus_instinct, "Bonus Instinct", class: "block mb-2 text-sm" %>
+        <%= f.number_field :bonus_instinct, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :image, "Image (upload)", class: "block mb-2 text-sm" %>
+        <%= f.file_field :image, class: "w-full text-[#dccdaa]" %>
+
+        <% if @equipment.image.attached? %>
+          <div class="mt-2">
+            <p class="text-sm">Image actuelle :</p>
+            <%= image_tag @equipment.image.variant(resize_to_limit: [80, 80]).processed, class: "mt-1 h-20 w-20 rounded object-cover" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex justify-between mt-6">
+        <%= link_to "← Retour", gamemaster_equipments_path, class: "bg-red-700 hover:bg-red-600 px-6 py-2 rounded shadow text-[#dccdaa]" %>
+        <%= f.submit "Enregistrer", class: "bg-blue-700 hover:bg-blue-600 px-6 py-2 rounded text-[#dccdaa] shadow" %>
+      </div>
+    <% end %>
+  </div>
+</div>

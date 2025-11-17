@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  character: one
+  quest: one
+  current_step: 1
+  completed: false
+
+two:
+  character: two
+  quest: two
+  current_step: 1
+  completed: false

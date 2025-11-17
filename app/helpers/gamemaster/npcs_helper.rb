@@ -1,0 +1,2 @@
+module Gamemaster::NpcsHelper
+end

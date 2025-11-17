@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<style>
+  #settings-modal,
+  #settings-wrapper {
+    position: fixed !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+  }
+</style>
+
+  <head>
+    <title><%= content_for(:title) || "Medieval Rpg" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+
+  
+  <body class='max-w-full'>
+    <!-- Zone audio persistante -->
+    <div id="audio-container" data-turbo-permanent>
+      <% unless controller.controller_name == 'combats' && controller.action_name == 'show' %>
+        <audio id="game-audio" preload="auto" loop muted>
+          <source src="<%= asset_path('twd.mp3') %>" type="audio/mpeg">
+          Ton navigateur ne supporte pas l'audio.
+        </audio>
+      <% end %>
+    </div>
+
+
+    <!-- Contenu principal -->
+    <%= yield %>
+    <%= render "shared/settings" %>
+  </body>
+</html>

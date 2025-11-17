@@ -1,0 +1,2 @@
+module Gamemaster::QuestsHelper
+end

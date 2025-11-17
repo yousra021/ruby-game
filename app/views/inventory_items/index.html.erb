@@ -1,0 +1,85 @@
+<div class="min-h-screen bg-[#121212] text-[#e3dcc5] px-8 py-10 flex items-center justify-center">
+  <div class="flex flex-row w-full max-w-[1400px] gap-16 items-center">
+
+    <!-- Colonne gauche (contenu texte) -->
+    <div class="w-3/5 space-y-8">
+      <h1 class="text-4xl font-bold font-dead text-[#dccdaa]">INVENTAIRE</h1>
+
+      <div>
+        <h2 class="text-xl font-semibold mb-2">[ Objets possédés ]</h2>
+        <ul class="list-disc list-inside space-y-1">
+          <% @inventory_items.each do |item| %>
+            <% eq = item.equipment %>
+            <li>
+              <!-- ✅ Lien vers la fiche de l’objet -->
+              <%= link_to character_inventory_item_path(@character.id, item.id), class: "text-[#e3dcc5] hover:underline" do %>
+              <%= eq.name %>
+              (
+                <%= eq.bonus_force.to_i > 0 ? "Force +#{eq.bonus_force} " : "" %>
+                <%= eq.bonus_pv.to_i > 0 ? "Vie +#{eq.bonus_pv} " : "" %>
+                <%= eq.bonus_instinct.to_i > 0 ? "Instinct +#{eq.bonus_instinct} " : "" %>
+                <%= eq.bonus_xp.to_i > 0 ? "XP +#{eq.bonus_xp} " : "" %>
+              )
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Formulaire d'équipement -->
+      <div>
+        <h2 class="text-xl font-semibold mb-2">[ Équipement ]</h2>
+<%= form_with model: @character, url: update_stats_character_path(@character), method: :patch, local: true do |f| %>
+  <div class="space-y-4">
+    <div>
+      <label class="block mb-1" for="weapon_select">Arme :</label>
+      <select id="weapon_select" name="character[weapon_id]" class="w-full p-2 rounded bg-[#2c241e] text-white">
+        <option value="">-- Aucun --</option>
+        <% @inventory_items.select { |i| i.equipment.equipment_type == 'weapon' }.each do |item| %>
+          <option value="<%= item.equipment.id %>" <%= "selected" if @character.weapon_id == item.equipment.id %>><%= item.equipment.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div>
+      <label class="block mb-1" for="top_select">Vêtement :</label>
+      <select id="top_select" name="character[top_id]" class="w-full p-2 rounded bg-[#2c241e] text-white">
+        <option value="">-- Aucun --</option>
+        <% @inventory_items.select { |i| i.equipment.equipment_type == 'top' }.each do |item| %>
+          <option value="<%= item.equipment.id %>" <%= "selected" if @character.top_id == item.equipment.id %>><%= item.equipment.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div>
+      <label class="block mb-1" for="accessory_select">Accessoire :</label>
+      <select id="accessory_select" name="character[accessory_id]" class="w-full p-2 rounded bg-[#2c241e] text-white">
+        <option value="">-- Aucun --</option>
+        <% @inventory_items.select { |i| i.equipment.equipment_type == 'accessory' }.each do |item| %>
+          <option value="<%= item.equipment.id %>" <%= "selected" if @character.accessory_id == item.equipment.id %>><%= item.equipment.name %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <button type="submit" class="mt-6 bg-[#40352a] text-[#f1e5c9] px-6 py-2 rounded hover:bg-[#5a4737]">
+    Sauvegarder
+  </button>
+<% end %>
+
+      </div>
+    </div>
+
+    <!-- Colonne droite (image avatar) -->
+    <div class="w-2/5 flex justify-center">
+      <% if @character.avatar.present? %>
+        <%= image_tag("avatars/#{@character.avatar}", class: "max-h-[600px] object-contain rounded shadow-lg") if @character.avatar.present? %>
+      <% else %>
+        <div class="w-64 h-64 bg-[#3a2c23] flex items-center justify-center text-gray-400 rounded">
+          Aucun avatar
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

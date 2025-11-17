@@ -1,0 +1,37 @@
+<div class="min-h-screen bg-cover bg-center" style="background-image: url('/background-images/game-home-bg.png');">
+  <div class="min-h-screen flex flex-col items-center justify-center space-y-6">
+    <h1 class="font-dead text-[64px] text-[#dccdaa]">Creer un compte</h1>
+
+    <div class="p-6 w-80 sm:w-96">
+      <%= form_with model: @user, url: users_path, local: true do |form| %>
+        <div class="mb-4">
+          <%= form.label :username, "Nom d'utilisateur", class: "block text-[#dccdaa] mb-1" %>
+          <%= form.text_field :username, class: "w-full px-3 py-2 rounded bg-transparent border border-[#dccdaa] text-[#dccdaa] placeholder-[#aaa]" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :email, "Adresse email", class: "block text-[#dccdaa] mb-1" %>
+          <%= form.email_field :email, class: "w-full px-3 py-2 rounded bg-transparent border border-[#dccdaa] text-[#dccdaa] placeholder-[#aaa]" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :password, "Mot de passe", class: "block text-[#dccdaa] mb-1" %>
+          <%= form.password_field :password, class: "w-full px-3 py-2 rounded bg-transparent border border-[#dccdaa] text-[#dccdaa] placeholder-[#aaa]" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :password_confirmation, "Confirmation du mot de passe", class: "block text-[#dccdaa] mb-1" %>
+          <%= form.password_field :password_confirmation, class: "w-full px-3 py-2 rounded bg-transparent border border-[#dccdaa] text-[#dccdaa] placeholder-[#aaa]" %>
+        </div>
+
+        <div class="flex justify-center">
+          <%= form.submit "Créer le compte", class: "w-full bg-[#222] text-[#dccdaa] px-6 py-3 rounded shadow hover:bg-[#dccdaa] hover:text-[#222] hover:cursor-pointer" %>
+        </div>
+      <% end %>
+
+      <div class="mt-4 text-center">
+        <%= link_to "Déjà un compte ? Se connecter", login_path, class: "text-[#dccdaa] hover:underline" %>
+      </div>
+    </div>
+  </div>
+</div>

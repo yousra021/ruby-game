@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  category: MyString
+  bonus_force: 1
+  bonus_pv: 1
+  bonus_xp: 1
+  bonus_instinct: 1
+  image: MyString
+
+two:
+  name: MyString
+  category: MyString
+  bonus_force: 1
+  bonus_pv: 1
+  bonus_xp: 1
+  bonus_instinct: 1
+  image: MyString

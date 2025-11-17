@@ -1,0 +1,49 @@
+<div class="min-h-screen bg-cover bg-center px-6 py-12" style="background-image: url('/background-images/game-list-pnj-bg.png');">
+  <div class="max-w-xl mx-auto bg-[#111]/90 p-8 rounded shadow text-[#dccdaa]">
+    <h1 class="font-dead text-3xl mb-6 text-center">Modifier PNJ</h1>
+
+    <% if @npc.errors.any? %>
+      <div class="mb-4 p-4 bg-red-900 rounded shadow">
+        <h3 class="font-bold mb-2">Erreurs :</h3>
+        <ul class="list-disc pl-5">
+          <% @npc.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: @npc, url: gamemaster_npc_path(@npc), local: true, method: :patch, html: { multipart: true } do |f| %>
+      <div class="mb-4">
+        <%= f.label :name, "Nom", class: "block mb-2" %>
+        <%= f.text_field :name, class: "w-full bg-[#222] px-4 py-2 rounded" %>
+      </div>
+
+      <div class="flex gap-4 mb-4">
+        <div class="w-1/2">
+          <%= f.label :health, "Vie", class: "block mb-2" %>
+          <%= f.number_field :health, class: "w-full bg-[#222] px-4 py-2 rounded" %>
+        </div>
+        <div class="w-1/2">
+          <%= f.label :strength, "Force", class: "block mb-2" %>
+          <%= f.number_field :strength, class: "w-full bg-[#222] px-4 py-2 rounded" %>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :avatar, "Avatar", class: "block mb-2" %>
+        <% if @npc.avatar.attached? %>
+          <div class="mb-2">
+            <%= image_tag @npc.avatar.variant(resize_to_limit: [80, 80]), class: "rounded-full shadow" %>
+          </div>
+        <% end %>
+        <%= f.file_field :avatar, class: "w-full text-[#dccdaa]" %>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <%= link_to "⬅ Retour", gamemaster_npcs_path, class: "text-sm text-red-400 hover:underline" %>
+        <%= f.submit "Mettre à jour", class: "bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded text-[#dccdaa]" %>
+      </div>
+    <% end %>
+  </div>
+</div>

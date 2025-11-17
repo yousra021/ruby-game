@@ -1,0 +1,110 @@
+<div class="h-screen overflow-hidden bg-[#121212] text-[#e3dcc5] px-4 py-6">
+  <h1 class="text-4xl font-bold mb-4 text-center font-dead text-[#dccdaa]">CREATION DE SURVIVANT</h1>
+
+  <%= form_with model: @character, local: true do |f| %>
+
+    <div class="flex flex-col md:flex-row gap-6 max-w-[1100px] mx-auto h-[calc(100vh-120px)]">
+      
+      <!-- Colonne gauche : avatar sélectionné -->
+      <div class="flex justify-center items-start md:w-1/2 overflow-hidden">
+        <% selected_avatar = @character.avatar.presence || Dir.glob(Rails.root.join("app/assets/images/avatars/*.png")).map { |p| "avatars/#{File.basename(p)}" }.first %>
+        <%= image_tag selected_avatar, id: "selected-avatar", class: "w-full h-auto rounded shadow-lg" %>
+      </div>
+
+      <!-- Colonne droite -->
+      <div class="md:w-1/2 overflow-y-auto px-1">
+  <% if @character.errors.any? %>
+    <div class="mb-4 bg-red-900/50 border border-red-500 text-red-300 p-4 rounded">
+      <h2 class="font-semibold mb-2">Erreurs :</h2>
+      <ul class="list-disc list-inside text-sm">
+        <% @character.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+        <!-- Sélection avatars -->
+        <div class="grid grid-cols-3 gap-2 mb-4">
+          <% Dir.glob(Rails.root.join("app/assets/images/avatars/*.png")).map { |p| File.basename(p) }.each do |avatar| %>
+            <label class="cursor-pointer hover:scale-105 transition-transform">
+              <%= f.radio_button :avatar, avatar, class: "hidden", data: { avatar: avatar } %>
+              <%= image_tag "avatars/#{avatar}", width: 100, height: 100, class: "rounded avatar-option border-2 border-transparent", data: { avatar: avatar } %>
+            </label>
+          <% end %>
+        </div>
+
+        <!-- Nom -->
+        <div class="mb-3">
+          <%= f.label :name, "Nom du personnage" %>
+          <%= f.text_field :name, class: "w-full px-2 py-2 rounded bg-[#1e1e1e] text-white border border-gray-600" %>
+        </div>
+
+        <!-- Stats -->
+        <div class="mb-3">
+          <%= f.label :strength, "Force" %>
+          <%= f.number_field :strength, value: @character.strength || 10, min: 0, max: 20, class: "w-full px-2 py-1 rounded bg-[#1e1e1e] text-white border border-gray-600" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :health, "Vie" %>
+          <%= f.number_field :health, value: @character.health || 10, min: 0, max: 20, class: "w-full px-2 py-1 rounded bg-[#1e1e1e] text-white border border-gray-600" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :instinct, "Instinct" %>
+          <%= f.number_field :instinct, value: @character.instinct || 10, min: 0, max: 20, class: "w-full px-2 py-1 rounded bg-[#1e1e1e] text-white border border-gray-600" %>
+        </div>
+
+        <!-- Équipement -->
+        <div class="mb-3">
+          <%= f.label :top_id, "Haut" %>
+          <%= f.collection_select :top_id, Equipment.tops, :id, :name, prompt: "Choisissez un haut", class: "w-full bg-[#1e1e1e] text-white border border-gray-600 px-2 py-1 rounded" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :bottom_id, "Pantalon" %>
+          <%= f.collection_select :bottom_id, Equipment.bottoms, :id, :name, prompt: "Choisissez un pantalon", class: "w-full bg-[#1e1e1e] text-white border border-gray-600 px-2 py-1 rounded" %>
+        </div>
+
+        <div class="mb-5">
+          <%= f.label :accessory_id, "Accessoires" %>
+          <%= f.collection_select :accessory_id, Equipment.accessories, :id, :name, prompt: "Choisissez un accessoire", class: "w-full bg-[#1e1e1e] text-white border border-gray-600 px-2 py-1 rounded" %>
+        </div>
+
+        <!-- Bouton -->
+        <%= f.submit "Créer personnage", class: "w-full bg-[#40352a] text-white px-4 py-2 rounded hover:bg-[#5a4737] transition-colors cursor-pointer" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- ✅ Script pour mise à jour dynamique de l'avatar affiché -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const avatarImages = document.querySelectorAll(".avatar-option");
+    const avatarRadios = document.querySelectorAll("input[type='radio'][name='character[avatar]']");
+    const selectedAvatar = document.getElementById("selected-avatar");
+
+    avatarImages.forEach((img, index) => {
+      img.addEventListener("click", function () {
+        const newSrc = img.getAttribute("src");
+        if (selectedAvatar) selectedAvatar.setAttribute("src", newSrc);
+
+        // Met à jour le visuel actif
+        avatarImages.forEach(i => i.classList.remove("ring", "ring-[#dccdaa]"));
+        img.classList.add("ring", "ring-[#dccdaa]");
+
+        // Coche le bouton radio correspondant
+        avatarRadios[index].checked = true;
+      });
+    });
+
+    // Si déjà coché côté serveur, appliquer le ring dès le chargement
+    const checked = document.querySelector("input[type='radio'][name='character[avatar]']:checked");
+    if (checked) {
+      const activeImg = document.querySelector(`img[data-avatar='${checked.value}']`);
+      if (activeImg) activeImg.classList.add("ring", "ring-[#dccdaa]");
+    }
+  });
+</script>

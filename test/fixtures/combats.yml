@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  character: one
+  npc: one
+  won: false
+  character_remaining_hp: 1
+  npc_remaining_hp: 1
+  ended_at: 2025-05-10 16:18:43
+
+two:
+  character: two
+  npc: two
+  won: false
+  character_remaining_hp: 1
+  npc_remaining_hp: 1
+  ended_at: 2025-05-10 16:18:43

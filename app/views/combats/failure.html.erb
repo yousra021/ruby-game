@@ -1,0 +1,11 @@
+<div class="min-h-screen bg-cover bg-center" style="background-image: url('/background-images/game-echec-mission-bg.png');">
+  <div class="min-h-screen flex flex-col items-center justify-center space-y-6 text-[#dccdaa]">
+
+    <h1 class="text-[48px] font-bold font-dead">TU AS ÉCHOUÉ</h1>
+    <p class="text-lg">Le PNJ <strong><%= @combat.npc.name %></strong> t’a terrassé...</p>
+    <p class="text-sm text-red-300">Mais l’étape est tout de même considérée comme complétée.</p>
+
+    <%= link_to "🏕️ Retour au camp", dashboard_index_path,
+        class: "bg-[#222] text-[#dccdaa] px-6 py-3 rounded shadow" %>
+  </div>
+</div>

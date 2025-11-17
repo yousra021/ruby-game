@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-[#121212] text-[#dccdaa] px-10 py-8 font-dead">
+  <h1 class="text-4xl mb-8 text-center">🗺️ Journal de Quetes</h1>
+
+  <h2 class="text-2xl mb-4 text-yellow-300">🔄 Quetes en cours</h2>
+  <% if @in_progress.any? %>
+    <% @in_progress.each do |progress| %>
+      <div class="bg-[#222] p-4 rounded mb-4 shadow">
+        <p class="text-xl font-semibold"><%= progress.quest.title %></p>
+        <p>Progression : <%= progress.current_step + 1 %> / <%= progress.quest.quest_steps.count %> étapes</p>
+        <%= link_to "Continuer", dashboard_steps_path(step: progress.current_step), class: "underline text-blue-300" %>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-400 mb-6">Aucune quete en cours.</p>
+  <% end %>
+
+  <h2 class="text-2xl mt-10 mb-4 text-green-300">✅ Quetes terminees</h2>
+  <% if @completed.any? %>
+    <% @completed.each do |progress| %>
+      <div class="bg-[#1a2a1a] p-4 rounded mb-4 shadow">
+        <p class="text-xl font-semibold"><%= progress.quest.title %></p>
+        <p class="text-sm text-gray-300">Termine</p>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-400">Aucune quete terminee.</p>
+  <% end %>
+</div>

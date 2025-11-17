@@ -1,0 +1,73 @@
+<div class="min-h-screen bg-cover bg-center px-6 py-12" style="background-image: url('/background-images/game-list-pnj-bg.png');">
+  <h1 class="font-dead text-4xl text-center text-[#dccdaa] mb-10 tracking-widest">EQUIPEMENTS</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto text-[#dccdaa] justify-center items-start">
+
+    <!-- 🎯 Formulaire -->
+    <div class="bg-[#111]/90 p-6 rounded shadow-lg border border-[#333] w-full">
+      <h2 class="text-2xl font-bold mb-6">Ajouter un équipement</h2>
+
+      <%= form_with model: @equipment, url: gamemaster_equipments_path, local: true, html: { multipart: true } do |f| %>
+        <div class="mb-4">
+          <%= f.label :name, "Nom", class: "block mb-2 text-sm" %>
+          <%= f.text_field :name, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :equipment_type, "Type", class: "block mb-2 text-sm" %>
+          <%= f.select :equipment_type, Equipment::EQUIPMENT_TYPES.map { |t| [t.capitalize, t] }, {}, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mb-4">
+          <div>
+            <%= f.label :bonus_force, "Bonus Force", class: "block mb-2 text-sm" %>
+            <%= f.number_field :bonus_force, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+          </div>
+          <div>
+            <%= f.label :bonus_pv, "Bonus PV", class: "block mb-2 text-sm" %>
+            <%= f.number_field :bonus_pv, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+          </div>
+          <div>
+            <%= f.label :bonus_xp, "Bonus XP", class: "block mb-2 text-sm" %>
+            <%= f.number_field :bonus_xp, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :bonus_instinct, "Bonus Instinct", class: "block mb-2 text-sm" %>
+          <%= f.number_field :bonus_instinct, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :image, "Image (upload)", class: "block mb-2 text-sm" %>
+          <%= f.file_field :image, class: "w-full text-[#dccdaa]" %>
+        </div>
+
+
+        <%= f.submit "Ajouter équipement", class: "bg-green-700 hover:bg-green-600 px-6 py-2 rounded text-[#dccdaa] mt-4 w-full shadow" %>
+      <% end %>
+    </div>
+
+    <!-- 📋 Liste -->
+    <div class="bg-[#111]/90 p-6 rounded shadow-lg border border-[#333] w-full ">
+    <h2 class="text-2xl font-bold mb-6">Liste</h2>
+    <div class='max-h-[500px] overflow-y-auto'>
+        <% @equipments.each do |eq| %>
+            <div class="flex justify-between items-center bg-[#222] px-4 py-3 rounded mb-3 shadow">
+            <span class="text-lg font-semibold">
+                <%= eq.name %> - <%= eq.equipment_type_fr %>
+            </span>
+            <div class="text-sm flex gap-2">
+                <%= link_to "✏️", edit_gamemaster_equipment_path(eq),
+                    class: "bg-yellow-600 hover:bg-yellow-500 px-3 py-1 rounded text-white" %>
+                <%= button_to "🗑️", gamemaster_equipment_path(eq),
+                    method: :delete,
+                    data: { confirm: "Supprimer cet équipement ?" },
+                    class: "bg-red-700 hover:bg-red-600 px-3 py-1 rounded text-white" %>
+            </div>
+            </div>
+        <% end %>
+    </div>
+
+  </div>
+</div>

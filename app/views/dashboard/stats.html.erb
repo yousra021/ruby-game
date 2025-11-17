@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-[#2b241c] text-[#e3dcc5] px-10 py-12">
+  <h1 class="text-4xl font-bold text-center mb-8 font-dead">CARACTERISTIQUES</h1>
+
+  <div class="max-w-4xl mx-auto  p-8 rounded flex flex-col md:flex-row gap-10">
+    <!-- Avatar -->
+    <div class="md:w-1/2 flex justify-center">
+      <%= image_tag url_for(@character.avatar), class: "w-90 h-auto rounded shadow-lg" %>
+    </div>
+
+    <!-- Stats -->
+    <div class="md:w-1/2 space-y-4">
+      <h2 class="text-2xl font-bold"><%= @character.name %></h2>
+      <p class='font-semibold'>Niveau actuel : <%= @character.level || 1 %></p>
+      <p class='font-semibold'>Points non attribués : <%= @character.available_points || 0 %></p>
+
+      <%= form_with url: character_stats_path, method: :patch, local: true do |f| %>
+        <% [:strength, :health, :instinct].each do |stat| %>
+          <div class="flex items-center justify-between mb-2">
+            <label class="w-32 capitalize font-semibold"><%= stat.to_s %> :</label>
+            <span><%= @character.send(stat) %></span>
+            <%= f.number_field stat, value: 0, min: 0, class: "w-16 text-center bg-[#1e1e1e] border border-gray-600 rounded text-white" %>
+          </div>
+        <% end %>
+        <%= f.submit "VALIDER LES CHOIX", class: "mt-4 bg-[#40352a] text-white px-6 py-2 rounded hover:bg-[#5a4737]" %>
+      <% end %>
+    </div>
+  </div>
+</div>

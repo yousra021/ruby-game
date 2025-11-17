@@ -1,0 +1,35 @@
+<div class="min-h-screen bg-cover bg-center px-6 py-12" style="background-image: url('/background-images/game-suivi-joueur-bg.png');">
+  <h1 class="font-dead text-4xl text-center text-[#dccdaa] mb-10 tracking-widest">SUIVI DES JOUEURS</h1>
+
+  <div class="max-w-5xl mx-auto bg-[#111]/90 p-6 rounded shadow-lg border border-[#333] text-[#dccdaa] max-h-[600px] overflow-y-auto">
+    <% @characters.each do |char| %>
+      <% progress = char.character_quest_progresses.last %>
+      <div class="flex items-center justify-between bg-[#222] px-4 py-3 rounded mb-3 shadow">
+        <div class="flex items-center gap-4">
+        <% if char.avatar.present? %>
+          <%= image_tag "avatars/#{char.avatar}", class: "h-12 w-12 rounded-full object-cover" %>
+        <% else %>
+          <div class="h-12 w-12 bg-[#333] rounded-full flex items-center justify-center text-sm text-gray-400">?</div>
+        <% end %>
+
+
+        <div>
+            <p class="font-bold text-lg"><%= char.name %></p>
+            <p class="text-sm">Niveau <%= char.level %> – <%= progress&.quest&.title || "Pas de quête" %></p>
+          </div>
+        </div>
+
+        <div class="text-sm text-right">
+          <p><strong>Statut :</strong>
+            <span class="<%= status_badge_class(progress.status) %>"><%= progress.status %></span>
+          </p>
+          <p><strong>Action :</strong> 
+            <span class="<%= action_badge(progress.last_action) %>">
+              <%= progress.last_action %>
+            </span>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

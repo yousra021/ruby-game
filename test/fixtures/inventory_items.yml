@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  character: one
+  equipment: one
+  equipped: false
+
+two:
+  character: two
+  equipment: two
+  equipped: false

@@ -1,0 +1,10 @@
+<div class="min-h-screen bg-cover bg-center" style="background-image: url('/background-images/game-echec-mission-bg.png');">
+  <div class="min-h-screen flex flex-col items-center justify-center text-[#dccdaa] text-center space-y-8">
+
+    <h1 class="text-[48px] font-bold font-dead">MISSION ÉCHOUÉE</h1>
+    <p class="text-lg">Désolé <%= @character.name %>, tu n’as pas pu terminer la quête : <strong><%= @quest.title %></strong></p>
+    <p class="text-sm">Mais tu as acquis de l’expérience et tu peux retenter ta chance plus tard...</p>
+
+    <%= link_to "🏠 Retour au camp", dashboard_index_path, class: "bg-[#444] hover:bg-[#666] text-white px-6 py-3 rounded shadow text-sm font-semibold" %>
+  </div>
+</div>

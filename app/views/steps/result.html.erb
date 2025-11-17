@@ -1,0 +1,13 @@
+<div class="min-h-screen bg-[#1a1816] text-[#dccdaa] flex items-center justify-center p-6">
+  <div class="bg-[#2d2b28] p-8 rounded-lg text-center shadow-lg max-w-md">
+    <% if @success %>
+      <h1 class="text-3xl font-bold text-green-400 mb-4">✅ Bien joué !</h1>
+      <p>Tu as réussi l'étape "<%= @step.description %>"</p>
+    <% else %>
+      <h1 class="text-3xl font-bold text-red-400 mb-4">❌ Échec...</h1>
+      <p>Tu as échoué l'étape "<%= @step.description %>"</p>
+    <% end %>
+
+    <%= link_to "➡️ Continuer", dashboard_steps_path(quest_id: @step.quest_id), class: "btn-primary mt-6 inline-block" %>
+  </div>
+</div>

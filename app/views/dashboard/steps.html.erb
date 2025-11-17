@@ -1,0 +1,86 @@
+<div class="min-h-screen bg-[#1a1816] text-[#dccdaa] flex flex-col justify-center items-center overflow-hidden p-6">
+
+  <% if @current_step %>   
+    <h1 class="text-4xl font-bold uppercase tracking-widest mb-8 text-center">
+      MISSION : <%= @quest.title.upcase %>
+    </h1>
+
+    <div class="max-w-4xl w-full bg-[#3a352c] rounded-xl p-8 shadow-lg relative">
+      <!-- ✅ Étape X / Y -->
+      <div class="absolute top-4 left-4 text-sm text-[#bca98b] bg-[#1a1816] bg-opacity-60 px-3 py-1 rounded">
+        Étape <%= @current_index + 1 %> / <%= @steps.size %>
+      </div>
+
+      <h2 class="text-2xl font-bold uppercase mb-6 text-center">
+        <%= @current_step.description %>
+      </h2>
+
+      <% if @quest_progress %>
+        <% attempts = @step_attempts %>
+        <% success = @step_success %>
+        <% completed = @step_completed %>
+      <% else %>
+        <p class="text-red-400 text-center mt-4">⚠️ Progression de quête introuvable.</p>
+      <% end %>
+
+      <% unless completed %>
+        <div class="text-center text-yellow-300 text-sm mb-4">
+          <% case attempts.count
+            when 0 %>🧭 Tu n’as pas encore tenté cette étape.
+          <% when 1 %>🧪 Tu as tenté une fois. Il te reste <strong>1 seule chance</strong>.
+          <% when 2 %>🧪 Tu as épuisé tes deux chances.
+          <% end %>
+        </div>
+
+        <% if attempts.any? %>
+          <ul class="text-xs text-gray-400 text-center mb-6">
+            <% attempts.each do |a| %>
+              <li>📝 Tentative <%= a.attempt_count %> — <%= a.choice.capitalize %> : 
+                <%= a.result == 'success' ? '✅ Réussie' : '❌ Échouée' %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+          <% if @current_step.riddle_available? && attempts.count < 2 %>
+            <div class="bg-[#2a2621] border border-[#ffd700] p-6 rounded-lg shadow-md w-full max-w-sm text-center">
+              <h3 class="text-xl font-bold text-[#ffd700] mb-2">🔍 Option : Discrétion</h3>
+              <p class="text-sm text-[#ccc] mb-4">Tente de résoudre une énigme pour progresser sans te faire repérer.</p>
+              <%= link_to "🧩 Résoudre l'énigme", riddle_path(@current_step.riddle), class: "btn-primary" %>
+            </div>
+          <% end %>
+
+          <% if @current_step.combat_available? && attempts.count < 2 %>
+            <div class="bg-[#2a2621] border border-[#ff4d4d] p-6 rounded-lg shadow-md w-full max-w-sm text-center">
+              <h3 class="text-xl font-bold text-[#ff4d4d] mb-2">⚔️ Option : Force brute</h3>
+              <p class="text-sm text-[#ccc] mb-4">Affronte le PNJ en combat au corps-à-corps. Risque élevé, gloire assurée.</p>
+              <%= link_to "⚔️ Combattre le PNJ", start_combat_path(step_id: @current_step.id), class: "btn-danger" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <% if success %>
+          <p class="text-green-400 text-xl font-bold text-center mt-6">✅ Étape réussie ! Tu as prouvé ta valeur.</p>
+        <% else %>
+          <p class="text-red-400 text-xl font-bold text-center mt-6">❌ Étape échouée. Tu n’as plus d’essais disponibles.</p>
+        <% end %>
+      <% end %>
+
+      <div class="mt-4 flex justify-between text-sm text-[#bca98b] border-t border-[#5c4d3a] pt-4">
+        <span>XP À GAGNER : <%= @current_step.base_experience || 10 %></span>
+        <span>RÉCOMPENSE : 1 OBJET ALÉATOIRE</span>
+      </div>
+
+      <% if @current_index + 1 < @steps.size %>
+        <% if completed %>
+          <%= link_to "Suivant ➡️", dashboard_steps_path(step: @current_index + 1), class: "bg-[#444] hover:bg-[#666] text-white px-4 py-2 rounded text-sm font-semibold mt-6" %>
+        <% else %>
+          <span class="text-gray-500 italic mt-6">➡️ Étape suivante verrouillée</span>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center text-xl mt-20">⚠️ Aucune mission en cours.</p>
+  <% end %>
+</div>

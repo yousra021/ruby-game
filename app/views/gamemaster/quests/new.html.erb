@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-cover bg-center px-6 py-12 flex items-center" style="background-image: url('/background-images/game-creation-quete-bg.png');">
+  <div class="max-w-5xl mx-auto bg-[#111]/90 p-8 rounded shadow-lg text-[#dccdaa] w-full">
+    <h1 class="font-dead text-4xl mb-8 text-center tracking-widest">NOUVELLE QUETE</h1>
+
+    <%= form_with model: @quest, url: gamemaster_quests_path, local: true do |f| %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <!-- 📋 FORMULAIRE -->
+        <div>
+          <div class="mb-6">
+            <%= f.label :title, "Nom", class: "block mb-2 text-lg" %>
+            <%= f.text_field :title, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded shadow-inner" %>
+          </div>
+
+          <div class="mb-6">
+            <%= f.label :description, "Description du scénario", class: "block mb-2 text-lg" %>
+            <%= f.text_area :description, rows: 3, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded shadow-inner" %>
+          </div>
+
+          <div class="mb-6">
+            <%= f.label :reward_experience, "XP récompense", class: "block mb-2 text-lg" %>
+            <%= f.number_field :reward_experience, class: "w-full bg-[#222] text-[#dccdaa] px-4 py-2 rounded shadow-inner" %>
+          </div>
+
+          <!-- 🧩 Étapes dynamiques -->
+          <div id="quest-steps-container">
+              <%= f.fields_for :quest_steps do |step_form| %>
+              <%= render 'quest_step_fields', f: step_form %>
+            <% end %>
+          </div>
+
+          <!-- ➕ Ajouter une étape -->
+          <button type="button" id="add-step-btn"
+                  class="mt-4 bg-[#444] hover:bg-[#555] px-4 py-2 rounded text-[#dccdaa] w-full text-center shadow">
+            ➕ Ajouter une étape
+          </button>
+
+          <!-- ✅ Actions -->
+          <div class="flex justify-between mt-6">
+            <%= link_to "Retour", gamemaster_quests_path,
+                  class: "bg-red-800 hover:bg-red-700 px-6 py-2 rounded shadow text-[#dccdaa]" %>
+
+            <%= f.submit "Enregistrer la quête",
+                  class: "bg-green-700 hover:bg-green-600 px-6 py-2 rounded shadow text-[#dccdaa]" %>
+          </div>
+        </div>
+
+        <!-- 👁️ APERÇU -->
+        <div class="bg-[#222] p-6 rounded shadow-lg h-fit">
+          <h2 class="text-xl font-bold mb-4 border-b border-[#444] pb-2">APERÇU</h2>
+
+          <p><strong>Nom:</strong> <span id="preview-title">...</span></p>
+          <p><strong>Description:</strong> <span id="preview-description">...</span></p>
+          <p><strong>XP:</strong> <span id="preview-xp">...</span></p>
+
+          <hr class="my-4 border-[#444]">
+
+          <div id="quest-steps-preview" class="border-t border-[#555] mt-6 pt-4">
+            <!-- Étapes injectées par JS -->
+          </div>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+</div>

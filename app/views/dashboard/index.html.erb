@@ -1,0 +1,74 @@
+<div class="min-h-screen bg-[#121212] text-[#e3dcc5] px-6 py-10 flex justify-center items-center" style="background-image: url('/background-images/game-home-bg.png'); background-size: cover; background-position: center;">
+  <div class="w-full max-w-4xl px-8 py-10 bg-[#222019]/90 backdrop-blur-md rounded-lg shadow-lg space-y-10">
+    
+    <!-- Titre -->
+    <h1 class="text-4xl font-bold text-center tracking-widest text-[#dccdaa] font-dead uppercase">
+      Bienvenue <%= @character.name %> _ Niveau <%= @character.level || 1 %>
+    </h1>
+
+    <!-- Stats rapides -->
+    <div>
+      <h2 class="text-xl text-[#e3dcc5] font-press text-sand uppercase tracking-tight mb-4">
+        Stats rapides
+      </h2>
+      <div class="flex flex-col items-center space-y-4">
+        <div class="flex flex-wrap justify-center gap-6 text-xl">
+          <span class="flex items-center gap-1">
+            <%= inline_svg_tag 'icons/hearts.svg', class: 'w-5 h-5 text-red-500' %>
+            <strong>Vie :</strong> <%= @character.total_health %>
+          </span>
+          <span class="flex items-center gap-1">
+            <%= inline_svg_tag 'icons/strength.svg', class: 'w-5 h-5 text-orange-400' %>
+            <strong>Force :</strong> <%= @character.total_strength %>
+          </span>
+          <span class="flex items-center gap-1">
+            <%= inline_svg_tag 'icons/instinct.svg', class: 'w-5 h-5 text-green-500' %>
+            <strong>Instinct :</strong> <%= @character.total_instinct %>
+          </span>
+        </div>
+
+        <% xp = @character.experience || 0 %>
+        <% xp_needed = @character.experience_to_next_level || 500 %>
+        <p class="text-center font-semibold text-base mt-2 flex items-center justify-center gap-2">
+          <%= inline_svg_tag 'icons/level.svg', class: 'w-4 h-4 text-yellow-400' %>
+          XP : <%= xp %> / <%= xp_needed %> (<%= ((xp.to_f / xp_needed) * 100).round(1) %>%)
+        </p>
+
+        <!-- Barre d'XP -->
+        <div class="w-full max-w-sm mx-auto bg-[#2f2f2f] rounded-full h-5 overflow-hidden">
+          <div class="bg-yellow-400 h-full transition-all duration-300" style="width: <%= [(xp.to_f / xp_needed) * 100, 100].min %>%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Objets équipés -->
+    <div>
+      <h2 class="text-xl font-press text-sand uppercase tracking-tight mb-4 text-[#e3dcc5]">Objets équipés</h2>
+      <div class="flex flex-wrap justify-center gap-6">
+        <% equipped_items = { "Arme" => @character.weapon, "Vêtement" => @character.top, "Accessoire" => @character.accessory } %>
+
+        <% equipped_items.each do |label, item| %>
+          <div class="bg-[#2c2c2c] p-4 rounded-lg text-center shadow hover:scale-105 transition-transform w-52">
+            <% if item && item.image.present? %>
+              <%= image_tag url_for(item.image), class: "w-32 h-32 mx-auto object-cover rounded mb-2", alt: "#{item.name} (#{label})" %>
+              <p class="text-sm"><strong><%= label %> :</strong> <%= item.name %></p>
+            <% else %>
+              <div class="w-24 h-24 mx-auto mb-2 bg-[#1a1a1a] rounded flex items-center justify-center text-sm text-gray-400">
+                Aucun
+              </div>
+              <p class="text-sm"><strong><%= label %> :</strong> Aucun</p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Boutons de navigation -->
+    <div class="mt-6 flex flex-wrap justify-center gap-6">
+      <%= link_to "Caractéristiques", edit_stats_character_path(@character), class: "bg-[#3b372f] hover:bg-[#5c5343] text-[#e3dcc5] px-6 py-3 rounded font-semibold shadow" %>
+      <%= link_to "Inventaire", character_inventory_items_path(current_character), class: "bg-[#3b372f] hover:bg-[#5c5343] text-[#e3dcc5] px-6 py-3 rounded font-semibold shadow" %>
+      <%= link_to "Quêtes", dashboard_quests_path, class: "bg-[#3b372f] hover:bg-[#5c5343] text-[#e3dcc5] px-6 py-3 rounded font-semibold shadow" %>
+      <%= link_to "Rejoindre un groupe", "#", class: "bg-[#3b372f] hover:bg-[#5c5343] text-[#e3dcc5] px-6 py-3 rounded font-semibold shadow" %>
+    </div>
+  </div>
+</div>

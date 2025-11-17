@@ -1,0 +1,11 @@
+<h1><%= @quest.title %></h1>
+<p><%= @quest.description %></p>
+<p>XP : <%= @quest.reward_experience %></p>
+
+<h2>Étapes</h2>
+<% @quest.quest_steps.each_with_index do |step, i| %>
+  <div>
+    <strong>Étape <%= i + 1 %> :</strong>
+    <p><%= step.description %></p>
+  </div>
+<% end %>

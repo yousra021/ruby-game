@@ -1,0 +1,43 @@
+<div class="min-h-screen bg-cover bg-center text-[#e5d2b5] px-10 py-12" style="background-image: url('/background-images/game-fiche-objet-bg.png');">
+  <h1 class="text-4xl font-bold mb-4 font-dead flex justify-center">FICHE OBJET</h1>
+  <div class="max-w-4xl mx-auto p-8 rounded items-center justify-center shadow-lg flex flex-col md:flex-row gap-10">
+    
+    <!-- Image de l'objet -->
+    <div class="md:w-1/2 flex justify-center items-center">
+      <%= image_tag url_for(@equipment.image), class: "rounded-lg w-72 h-auto shadow" %>
+    </div>
+
+    <!-- Infos de l'objet -->
+    <div class="md:w-1/2">
+      <h2 class="text-3xl font-semibold mb-2"><%= @equipment.name %></h2>
+      <p class="mb-2"><strong>Type :</strong> <%= @equipment.equipment_type_fr %></p>
+      <p class="mb-4">
+        <strong>Effet :</strong>
+        <% effects = [] %>
+        <% effects << "+#{@equipment.bonus_force} Force" if @equipment.bonus_force > 0 %>
+        <% effects << "+#{@equipment.bonus_pv} Vie" if @equipment.bonus_pv > 0 %>
+        <% effects << "+#{@equipment.bonus_xp} XP" if @equipment.bonus_xp > 0 %>
+        <% effects << "+#{@equipment.bonus_instinct} Instinct" if @equipment.bonus_instinct > 0 %>
+        <%= effects.join(' | ') %>
+      </p>
+
+      <p class="italic text-sm text-gray-400 mb-6">
+        <%= @equipment.description.presence || "Pas de description disponible." %>
+      </p>
+
+      <!-- Actions -->
+      <div class="flex flex-wrap gap-4">
+        <% if @inventory_item.equipped? %>
+          <%= button_to 'Déséquiper', unequip_character_inventory_item_path(@character, @inventory_item),
+              method: :patch, class: "bg-yellow-700 hover:bg-yellow-800 text-white px-4 py-2 rounded" %>
+        <% else %>
+          <%= button_to 'Équiper', equip_character_inventory_item_path(@character, @inventory_item),
+              method: :patch, class: "bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded" %>
+        <% end %>
+
+        <%= link_to "Retour à l’inventaire", character_inventory_items_path(@character),
+            class: "bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded" %>
+      </div>
+    </div>
+  </div>
+</div>

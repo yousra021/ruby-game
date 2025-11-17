@@ -1,0 +1,64 @@
+<div class="quest-step step-form mb-6 p-4 bg-[#222] rounded shadow border border-[#444] text-[#dccdaa]">
+  <div class="mb-4">
+    <%= f.label :description, "🧾 Décrivez le scénario", class: "block mb-2 text-sm uppercase tracking-wide text-[#aaa]" %>
+    <%= f.text_area :description, rows: 3, class: "w-full bg-[#111] text-[#dccdaa] px-3 py-2 rounded shadow-inner border border-[#333]" %>
+  </div>
+
+  <!-- Case à cocher pour énigme -->
+  <div class="mb-4">
+    <%= f.label :has_riddle, class: "block mb-1 text-sm text-[#aaa]" do %>
+      <%= f.check_box :has_riddle, class: "mr-2 toggle-riddle" %>
+      🧠 Ajouter une énigme
+    <% end %>
+  </div>
+
+  <!-- Champs énigme -->
+  <div class="riddle-fields hidden">
+    <%= f.fields_for :riddle do |riddle_form| %>
+      <div class="mb-4">
+        <%= riddle_form.label :question, "Question", class: "block mb-1 text-sm text-[#aaa]" %>
+        <%= riddle_form.text_field :question, class: "w-full bg-[#111] text-[#dccdaa] px-3 py-2 rounded border border-[#333]" %>
+      </div>
+      <div class="mb-4">
+        <%= riddle_form.label :correct_answer, "Bonne réponse", class: "block mb-1 text-sm text-[#aaa]" %>
+        <%= riddle_form.text_field :correct_answer, class: "w-full bg-[#111] text-[#dccdaa] px-3 py-2 rounded border border-[#333]" %>
+      </div>
+      <div class="mb-4">
+        <%= riddle_form.label :wrong_answers, "Mauvaises réponses (format JSON)", class: "block mb-1 text-sm text-[#aaa]" %>
+        <%= riddle_form.text_area :wrong_answers, rows: 2, class: "w-full bg-[#111] text-[#dccdaa] px-3 py-2 rounded border border-[#333]" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Case à cocher pour combat -->
+  <div class="mb-4">
+    <%= f.label :has_combat, class: "block mb-1 text-sm text-[#aaa]" do %>
+      <%= f.check_box :has_combat, class: "mr-2 toggle-combat" %>
+      ⚔️ Ajouter un combat
+    <% end %>
+  </div>
+
+  <!-- Champs PNJ -->
+  <div class="npc-fields hidden">
+    <%= f.fields_for :npc do |npc_form| %>
+      <div class="mb-4">
+        <%= npc_form.label :name, "Nom du PNJ", class: "block mb-1 text-sm text-[#aaa]" %>
+        <%= npc_form.text_field :name, class: "w-full bg-[#111] text-[#dccdaa] px-3 py-2 rounded border border-[#333]" %>
+      </div>
+      <div class="mb-4">
+        <%= npc_form.label :health, "Points de vie", class: "block mb-1 text-sm text-[#aaa]" %>
+        <%= npc_form.number_field :health, class: "w-full bg-[#111] text-[#dccdaa] px-3 py-2 rounded border border-[#333]" %>
+      </div>
+      <div class="mb-4">
+        <%= npc_form.label :strength, "Force", class: "block mb-1 text-sm text-[#aaa]" %>
+        <%= npc_form.number_field :strength, class: "w-full bg-[#111] text-[#dccdaa] px-3 py-2 rounded border border-[#333]" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="text-right mt-4">
+    <a href="#" class="remove-step inline-block text-sm text-red-500 hover:text-red-400 hover:underline transition duration-200">
+      ❌ Supprimer cette étape
+    </a>
+  </div>
+</div>

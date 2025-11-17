@@ -1,0 +1,18 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#1a1816] text-[#dccdaa] px-6">
+  <h1 class="text-4xl mb-8">📜 Choisis une mission</h1>
+
+  <% if @available_quests.any? %>
+    <div class="space-y-4 w-full max-w-xl">
+      <% @available_quests.each do |quest| %>
+        <div class="bg-[#2a2924] border border-[#3b362d] rounded p-4">
+          <h2 class="text-xl font-bold mb-2"><%= quest.title %></h2>
+          <p class="text-sm mb-4"><%= quest.description %></p>
+          <%= button_to "Commencer cette mission", start_quest_character_path(@character, quest_id: quest.id), method: :post,
+              class: "inline-block bg-[#554433] hover:bg-[#76634a] px-4 py-2 rounded text-white font-semibold" %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-yellow-300 font-semibold">Aucune mission disponible actuellement.</p>
+  <% end %>
+</div>

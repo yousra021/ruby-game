@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  role: MyString
+  level: 1
+  experience: 1
+  health: 1
+  strength: 1
+  available_points: 1
+  user: one
+
+two:
+  name: MyString
+  role: MyString
+  level: 1
+  experience: 1
+  health: 1
+  strength: 1
+  available_points: 1
+  user: two

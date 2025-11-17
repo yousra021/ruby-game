@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-[#1a1816] text-[#dccdaa] flex flex-col justify-center items-center p-8">
+
+  <h1 class="text-4xl font-bold mb-8 uppercase tracking-wide">ÉNIGME</h1>
+
+  <p class="text-xl mb-6"><%= @riddle.question %></p>
+
+  <% if flash[:alert] %>
+    <p class=" text-green-600 px-4 py-2 rounded mb-4"><%= flash[:notice] %></p>
+  <% elsif flash[:alert] %>
+    <p class=" text-red-600 px-4 py-2 rounded mb-4"><%= flash[:alert] %></p>
+  <% end %>
+
+  <%= form_with url: check_riddle_path(@riddle), method: :post, local: true, class: "w-full max-w-md" do |form| %>
+    <div class="space-y-4">
+
+      <% all_answers = JSON.parse(@riddle.wrong_answers) + [@riddle.correct_answer] %>
+      <% all_answers.shuffle.each do |answer| %>
+        <button type="button"
+          class="answer-button w-full bg-[#5e472c] hover:bg-[#7a5e39] text-white py-3 px-6 rounded uppercase font-semibold tracking-wide transition duration-200"
+          data-answer="<%= answer %>">
+          <%= answer %>
+        </button>
+      <% end %>
+      
+    </div>
+
+    <%= form.hidden_field :answer, id: "selected_answer", required: true %>
+
+    <div class="mt-6">
+      <%= form.submit "Valider", 
+        class: "bg-[#5e472c] hover:bg-[#7a5e39] text-white py-3 px-6 rounded w-full uppercase font-semibold tracking-wide transition duration-200 disabled:opacity-50", 
+        disabled: true, id: "submit_btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".answer-button");
+    const hiddenInput = document.getElementById("selected_answer");
+    const submitBtn = document.getElementById("submit_btn");
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        // Reset styles on all buttons
+        buttons.forEach(b => b.classList.remove("bg-[#7a5e39]", "ring", "ring-[#dccdaa]"));
+        buttons.forEach(b => b.classList.add("bg-[#5e472c]"));
+
+        // Highlight the clicked button
+        button.classList.remove("bg-[#5e472c]");
+        button.classList.add("bg-[#7a5e39]", "ring", "ring-[#dccdaa]");
+
+        // Set hidden field value
+        hiddenInput.value = button.dataset.answer;
+
+        // Enable submit button
+        submitBtn.disabled = false;
+      });
+    });
+  });
+</script>

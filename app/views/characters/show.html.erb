@@ -1,0 +1,57 @@
+<div class="relative min-h-screen bg-black text-[#e5d2b5]">
+  <!-- Image de décor -->
+  <div class="absolute inset-0 z-0">
+    <div class="w-full h-full bg-cover bg-center opacity-70" style="background-image: url('/background-images/game-fiche-perso-bg.png');"></div>
+  </div>
+
+      <!-- Avatar du joueur -->
+    <% if @character && @character.avatar.present? %>
+      <div class="absolute inset-0 z-10 flex justify-center items-center">
+        <%= image_tag("avatars/#{@character.avatar}", class: "max-h-screen object-contain opacity-60") %>
+      </div>
+    <% end %>
+
+  <!-- Carte personnage -->
+  <div class="relative z-20 px-10 py-12 flex justify-center md:justify-end items-center min-h-screen">
+    <div class="bg-[#1a1a1a]/80 backdrop-blur-md p-10 rounded-lg w-full max-w-xl shadow-xl text-white">
+      <h1 class="text-4xl font-dead mb-6 text-[#dccdaa] text-center">FICHE PERSONNAGE</h1>
+
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold"><%= @character.name %></h2>
+        <p>Niveau : <strong><%= @character.level %></strong></p>
+        <p>XP actuelle : <strong><%= @character.experience %>/500</strong></p>
+
+        <% stats = {
+          "Vie" => @character.total_health,
+          "Force" => @character.total_strength,
+          "Instinct" => @character.total_instinct
+        } %>
+
+        <% stats.each do |label, value| %>
+          <div>
+            <div class="flex justify-between text-sm mb-1">
+              <span><%= label %></span>
+              <span><%= value %></span>
+            </div>
+            <div class="w-full bg-[#333] h-4 rounded overflow-hidden">
+              <div class="bg-[#bfa268] h-full" style="width: <%= [value * 2, 100].min %>%"></div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="mt-4">
+          <h3 class="text-xl font-semibold">Équipement</h3>
+          <ul class="space-y-1 mt-2">
+            <li>👒 Chapeau : <%= @character.top&.name || "Aucun" %></li>
+            <li>🗡️ Arme : <%= @character.weapon&.name || "Aucune" %></li>
+            <li>🛡️ Bouclier : <%= @character.accessory&.name || "Aucun" %></li>
+          </ul>
+        </div>
+
+        <div class="mt-6 text-center">
+          <%= link_to "Modifier personnage", edit_stats_character_path(@character), class: "bg-[#40352a] hover:bg-[#5a4737] px-6 py-2 rounded inline-block" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

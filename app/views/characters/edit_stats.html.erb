@@ -1,0 +1,49 @@
+<div class="min-h-screen bg-[#2b241c] text-[#e3dcc5] px-10 py-12">
+  <h1 class="text-4xl font-bold text-center mb-8 font-dead">Caracteristiques</h1>
+
+  <div class="max-w-4xl mx-auto p-8 rounded flex flex-col md:flex-row gap-10">
+
+    <!-- Avatar -->
+    <div class="md:w-1/2 flex justify-center">
+      <% if @character.avatar.present? %>
+        <%= image_tag("avatars/#{@character.avatar}", class: "w-full rounded shadow-lg") %>
+      <% else %>
+        <div class="w-64 h-64 bg-[#3a2c23] flex items-center justify-center text-gray-400 rounded">
+          Aucun avatar
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Formulaire de stats -->
+    <div class="md:w-1/2 space-y-4">
+      <h2 class="text-2xl font-bold"><%= @character.name %></h2>
+      <p class='font-semibold'>Niveau : <%= @character.level || 1 %></p>
+      <p class='font-semibold'>Points disponibles : <%= @character.available_points || 0 %></p>
+
+    <%= form_with model: @character, url: update_stats_character_path(@character), method: :patch, local: true do |f| %>
+        <% stats = { strength: "Force", health: "Vie", instinct: "Instinct" } %>
+        <% stats.each do |field, label| %>
+            <div class="flex justify-between items-center mb-4">
+                <label class="w-32 text-lg font-semibold "><%= label %> :</label>
+                <div class="flex gap-3 items-center">
+                <%= f.number_field field,
+                    value: @character.send(field),
+                    min: @character.send(field),
+                    class: "w-20 text-center bg-[#1e1e1e] text-white border border-gray-600 rounded" %>
+
+                    <div class="text-sm text-gray-400 italic">
+                        Total : <span class="text-white"><%= @character.send("total_#{field}") %></span>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    <%= f.submit "Valider les points", class: "mt-6 w-full bg-[#40352a] text-white px-6 py-2 rounded hover:bg-[#5a4737]" %>
+    <% end %>
+
+      <div class="mt-4 text-center">
+        <%= link_to "Retour", dashboard_index_path, class: "text-[#a3a3a3] hover:underline" %>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-cover bg-center px-6 py-6" style="background-image: url('/background-images/game-groupe-bg.png');">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-3xl font-dead text-[#dccdaa] mb-8 text-center">Choisis un de tes personnages</h2>
+      <% if @characters.present? && @characters.any? %>
+      <ul class="space-y-6 max-h-[600px] overflow-y-auto pr-2">
+        <% @characters.each do |char| %>
+          <li class="bg-[#1e1e1e] p-6 rounded shadow flex flex-col md:flex-row justify-between items-center">
+            
+            <!-- AVATAR -->
+            <div class="mb-4 md:mb-0 flex items-center gap-4">
+              <% if char.avatar.present? %>
+                <%= image_tag "avatars/#{char.avatar}", class: "h-12 w-12 rounded-full object-cover" %>
+              <% else %>
+                <div class="h-12 w-12 bg-[#333] rounded-full flex items-center justify-center text-sm text-gray-400">?</div>
+              <% end %>
+
+              <!-- INFOS DU PERSO -->
+              <div>
+                <h3 class="text-xl text-white font-semibold"><%= char.name %></h3>
+                <p class="text-sm text-gray-400">Rôle : <%= char.role || "Inconnu" %> · Niveau : <%= char.level || 1 %></p>
+              </div>
+            </div>
+
+            <!-- BOUTONS -->
+            <div class="flex gap-4">
+              <%= link_to "Voir fiche", character_path(char), class: "bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded" %>
+              <%= button_to "Jouer avec ce personnage", select_character_path(char), method: :post, class: "bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded" %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+      <% else %>
+        <p>Aucun personnage à afficher.</p>
+      <% end %>
+    <div class="mt-8 text-center">
+      <%= link_to "Créer un nouveau personnage", new_character_path, class: "text-blue-400 hover:underline" %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "DeadKansas";
+  src: url("/fonts/DeadKansas.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+.font-dead {
+  font-family: "DeadKansas", sans-serif;
+}
+
+.font-press {
+  font-family: "Press Start 2P", monospace;
+}
